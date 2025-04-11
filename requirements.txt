@@ -1,0 +1,10 @@
+FastAPI
+httpx
+sqlmodel
+pydantic
+uvicorn
+pytest
+pytest-asyncio
+pydantic[email]
+pydantic-settings
+slowapi
