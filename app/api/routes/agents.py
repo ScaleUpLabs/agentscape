@@ -20,7 +20,7 @@ def _prepare_agent_response(agent: Agent) -> dict:
         agent_dict["tags"] = []
     return agent_dict
 
-@router.post("/", response_model=AgentRead)
+@router.post("", response_model=AgentRead)
 @limiter.limit("5/minute")
 def create_agent(request: Request, agent: AgentCreate, db: CSVDatabase = Depends(get_db)) -> dict:
     agent_obj = register_agent(agent, db)
@@ -28,7 +28,7 @@ def create_agent(request: Request, agent: AgentCreate, db: CSVDatabase = Depends
     # Prepare response
     return _prepare_agent_response(agent_obj)
 
-@router.get("/", response_model=List[AgentRead])
+@router.get("", response_model=List[AgentRead])
 @limiter.limit("20/minute")
 def get_agents(
     request: Request,
@@ -43,7 +43,7 @@ def get_agents(
     # Convert each agent for response
     return [_prepare_agent_response(agent) for agent in results]
 
-@router.get("/{agent_id}", response_model=AgentRead)
+@router.get("{agent_id}", response_model=AgentRead)
 @limiter.limit("10/minute")
 def get_agent(request: Request, agent_id: str, db: CSVDatabase = Depends(get_db)) -> dict:
     agent = get_agent_service(agent_id, db)
