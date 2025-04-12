@@ -18,8 +18,8 @@ spec:
           ports:
             - containerPort: 80
           env:
-          - name: SQLITE_FILE_NAME
-            value: "../data/agents.db"
+          - name: csv_file_name
+            value: "/opt/data/agents.csv"
           - name: API_TITLE
             value: "AgentScape"
           - name: API_DESCRIPTION
