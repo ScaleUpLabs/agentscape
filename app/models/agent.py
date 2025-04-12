@@ -1,14 +1,25 @@
-from sqlmodel import Field, SQLModel
-from uuid import uuid4
+from pydantic import BaseModel
 from typing import Optional
-import sqlalchemy as sa
+from uuid import uuid4
 
-class Agent(SQLModel, table=True):
-    id: Optional[str] = Field(default_factory=lambda: str(uuid4()), primary_key=True)
+class Agent(BaseModel):
+    id: Optional[str] = None
     name: str
     description: str
-    endpoint: str = Field(sa_type=sa.String)
-    openapi_url: Optional[str] = Field(default=None, sa_type=sa.String)
-    org_website: str = Field(sa_type=sa.String)
-    org_email: str = Field(sa_type=sa.String)
+    endpoint: str
+    openapi_url: Optional[str] = None
+    org_website: str
+    org_email: str
     tags: Optional[str] = None
+    
+    def dict(self):
+        return {
+            'id': self.id or str(uuid4()),
+            'name': self.name,
+            'description': self.description,
+            'endpoint': self.endpoint,
+            'openapi_url': self.openapi_url,
+            'org_website': self.org_website,
+            'org_email': self.org_email,
+            'tags': self.tags or ''
+        }
