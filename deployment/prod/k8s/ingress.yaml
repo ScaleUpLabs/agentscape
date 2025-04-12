@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-agentscape-backend-ingress
+  annotations: 
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://prodeskubvault.vault.azure.net/certificates/prod-agentscape-backend-certificate
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"    # 5 minutes
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"    # 5 minutes
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"  # Keep this lower as it's just for connection
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: api.agentscape.cc
+    http:
+      paths:
+      - backend:
+          service:
+            name: prod-agentscape-backend-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - api.agentscape.cc
+    secretName: keyvault-prod-agentscape-backend-ingress
