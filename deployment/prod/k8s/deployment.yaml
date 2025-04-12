@@ -23,7 +23,7 @@ spec:
           - name: API_TITLE
             value: "AgentScape"
           - name: API_DESCRIPTION
-            value: "A Lightweight Directory for AI Agents"
+            value: "An Open and Lightweight Directory for AI Agents"
           volumeMounts:
             - name: app-data
               mountPath: /opt/data
